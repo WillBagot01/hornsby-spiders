@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hornsby Spiders U18 JPL 2026</title>
+  <link rel="icon" type="image/png" href="/assets/logo.png"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="login-page">
+  <div class="login-box">
+    <img id="login-logo" src="/assets/logo.png" alt="Hornsby Spiders" class="login-logo"
+         onerror="this.style.display='none'"/>
+    <h1 class="login-heading">Hornsby <span class="text-green">Spiders</span></h1>
+    <p class="login-sub">U18 JPL — 2026 Season Portal</p>
+    <div id="login-error" class="login-error hidden"></div>
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" type="text" id="username" placeholder="Enter your username" autocomplete="username" required/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required/>
+      </div>
+      <button type="submit" class="btn btn-primary w-full" id="login-btn" style="margin-top:8px">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app" class="hidden">
+  <nav class="navbar">
+    <div class="nav-brand" id="nav-home-btn">
+      <img src="/assets/logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'"/>
+      <div>
+        <div class="nav-title">Hornsby <span>Spiders</span></div>
+        <div style="font-size:.7rem;color:#555;font-family:var(--font-display);letter-spacing:.08em">U18 JPL 2026</div>
+      </div>
+    </div>
+    <div class="nav-links" id="nav-links">
+      <button class="nav-btn" data-view="scout">Scout</button>
+      <button class="nav-btn" data-view="games">Post Game Review</button>
+      <div style="width:1px;height:28px;background:var(--black-border);margin:0 4px"></div>
+      <div class="nav-user">
+        <span id="nav-username" class="text-sm text-dim"></span>
+        <span id="nav-role-badge" class="role-badge"></span>
+        <button class="btn-logout" id="logout-btn">Sign Out</button>
+      </div>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HOME -->
+  <div id="view-home" class="page container">
+    <div class="home-hero">
+      <img src="/assets/logo.png" alt="Hornsby Spiders" class="home-hero-logo" onerror="this.style.display='none'"/>
+      <p class="home-welcome" id="home-welcome">Welcome back —</p>
+      <h1 class="home-season">Hornsby <span class="accent">Spiders</span><br/>U18 JPL — <span class="accent">2026</span></h1>
+      <p class="home-subtitle">Select a section below to get started</p>
+      <div class="home-cards">
+        <div class="home-nav-card" id="home-scout-card">
+          <div class="hnc-icon">🔍</div>
+          <div class="hnc-title">Scout Page</div>
+          <div class="hnc-desc">Opposition team playstyles, strategies, and key player breakdowns for all 10 JPL opponents.</div>
+        </div>
+        <div class="home-nav-card" id="home-games-card">
+          <div class="hnc-icon">📊</div>
+          <div class="hnc-title">Post Game Review</div>
+          <div class="hnc-desc">Rate team performance after each game across six key categories. Results aggregated anonymously.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOUT -->
+  <div id="view-scout" class="page container hidden">
+    <div class="section-header">
+      <h2 class="section-title">Scout Page</h2>
+    </div>
+    <div class="scout-selector">
+      <div class="scout-selector-label">Select Opposition Team</div>
+      <select class="form-control" id="scout-team-select" style="max-width:400px">
+        <option value="">— Choose a team —</option>
+      </select>
+    </div>
+    <div id="scout-content" class="hidden">
+      <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px">
+        <h3 id="scout-team-name" style="font-family:var(--font-display);font-size:1.6rem;font-weight:900;text-transform:uppercase"></h3>
+        <button class="btn btn-ghost btn-sm hidden" id="scout-edit-btn">✏️ Edit Team Info</button>
+      </div>
+      <div class="scout-team-info">
+        <div class="scout-info-section">
+          <div class="scout-info-header"><div class="scout-info-label">🏀 Team Playstyle</div></div>
+          <p class="scout-info-text" id="info-playstyle-text"></p>
+          <textarea class="form-control edit-area" id="info-playstyle-edit" rows="4" placeholder="Describe the opposition's style of play…"></textarea>
+        </div>
+        <div class="scout-info-section">
+          <div class="scout-info-header"><div class="scout-info-label">🎯 Our Strategy</div></div>
+          <p class="scout-info-text" id="info-strategy-text"></p>
+          <textarea class="form-control edit-area" id="info-strategy-edit" rows="4" placeholder="Describe Hornsby's tactical approach…"></textarea>
+        </div>
+        <div class="scout-info-section">
+          <div class="scout-info-header"><div class="scout-info-label">🏆 Win Condition</div></div>
+          <p class="scout-info-text" id="info-wincon-text"></p>
+          <textarea class="form-control edit-area" id="info-wincon-edit" rows="4" placeholder="What must the team execute to win?"></textarea>
+        </div>
+      </div>
+      <div class="hidden mt-16" id="scout-save-bar" style="display:none;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="scout-save-btn">💾 Save Changes</button>
+        <button class="btn btn-secondary" id="scout-cancel-btn">Cancel</button>
+      </div>
+      <div class="player-scouts-title"><span>🕷️</span> Player <span>Scout</span></div>
+      <div class="player-cards-grid" id="player-cards-grid"></div>
+    </div>
+    <div id="scout-empty" class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-title">Select a Team</div>
+      <div class="empty-state-desc">Choose an opposition team from the dropdown to view their scout report.</div>
+    </div>
+  </div>
+
+  <!-- GAMES -->
+  <div id="view-games" class="page container hidden">
+    <div class="section-header">
+      <h2 class="section-title">Post Game Review</h2>
+      <button class="btn btn-primary hidden" id="add-game-btn">+ Add Game</button>
+    </div>
+    <div id="games-list" class="games-list">
+      <div class="loading-overlay"><div class="spinner"></div> Loading games…</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay hidden" id="modal-player">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Edit Player <span id="modal-player-pos"></span></div>
+      <button class="modal-close" data-close="modal-player">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-player-id"/>
+      <div class="form-group"><label class="form-label">Player Number</label><input class="form-control" type="text" id="edit-player-number" placeholder="e.g. 7" maxlength="4"/></div>
+      <div class="form-group"><label class="form-label">Strengths</label><textarea class="form-control" id="edit-player-strengths" rows="3" placeholder="Key strengths?"></textarea></div>
+      <div class="form-group"><label class="form-label">Weaknesses</label><textarea class="form-control" id="edit-player-weaknesses" rows="3" placeholder="Exploitable weaknesses?"></textarea></div>
+      <div class="form-group"><label class="form-label">Our Team Matchup</label><textarea class="form-control" id="edit-player-matchup" rows="3" placeholder="How do we guard/attack this player?"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-player">Cancel</button>
+      <button class="btn btn-primary" id="save-player-btn">Save Player</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-game">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-game-title">Add Game</div>
+      <button class="modal-close" data-close="modal-game">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-game-id"/>
+      <div class="form-group"><label class="form-label">Opponent</label><input class="form-control" type="text" id="edit-game-opponent" placeholder="e.g. Penrith Panthers" required/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label class="form-label">Our Score</label><input class="form-control" type="number" id="edit-game-our-score" placeholder="72" min="0" max="999"/></div>
+        <div class="form-group"><label class="form-label">Their Score</label><input class="form-control" type="number" id="edit-game-opp-score" placeholder="65" min="0" max="999"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Game Date</label><input class="form-control" type="date" id="edit-game-date" required/></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-control" id="edit-game-published">
+          <option value="0">Draft — not visible to players</option>
+          <option value="1">Published — open for voting</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-game">Cancel</button>
+      <button class="btn btn-primary" id="save-game-btn">Save Game</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-vote">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div class="modal-title">Rate — <span id="vote-game-title" class="text-green"></span></div>
+      <button class="modal-close" data-close="modal-vote">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="vote-game-id"/>
+      <p style="color:var(--white-dim);font-size:.875rem;margin-bottom:20px">Your vote is <strong style="color:var(--green)">anonymous</strong>. Rate each category 1–10.</p>
+      <div class="vote-grid" id="vote-grid"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close="modal-vote">Cancel</button>
+      <button class="btn btn-primary" id="submit-vote-btn">Submit Vote</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-users">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      <div class="modal-title">Manage Users</div>
+      <button class="modal-close" data-close="modal-users">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="card card-accent" style="margin-bottom:24px">
+        <div class="card-header" style="margin-bottom:16px"><div class="card-title">Create New Account</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Username</label><input class="form-control" type="text" id="new-user-name" placeholder="username"/></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Password</label><input class="form-control" type="text" id="new-user-pass" placeholder="password"/></div>
+        </div>
+        <div class="form-group" style="margin-top:14px;margin-bottom:0"><label class="form-label">Role</label>
+          <select class="form-control" id="new-user-role">
+            <option value="player">Player</option>
+            <option value="coach">Coach</option>
+            <option value="manager">Manager</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="create-user-btn" style="margin-top:16px">Create Account</button>
+      </div>
+      <div id="users-list-wrap"><div class="loading-overlay"><div class="spinner"></div></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" data-close="modal-users">Close</button></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
